@@ -1,4 +1,8 @@
-# MCP Server Learning Guide
+# local-llm-mcp-server
+
+MCP server that connects tools to a locally running large language model.
+
+## MCP Server Learning Guide
 
 This project shows a minimal MCP setup:
 - Server: `my_server.py`
@@ -60,7 +64,7 @@ Recommended production pattern:
 
 ## 6) Dependencies
 
-## Windows (PowerShell)
+### Windows (PowerShell)
 
 ```powershell
 cd "C:\Users\Home\Desktop\MCP PROJECT"
@@ -93,6 +97,12 @@ python agent.py
 
 This automatically starts `my_server.py` via `stdio`.
 
+Run the MCP health check:
+
+```powershell
+python healthcheck.py
+```
+
 ## 8) Environment Variables
 
 Server supports:
@@ -102,12 +112,15 @@ Server supports:
 Client supports:
 - `MCP_SERVER_COMMAND` (default: current Python executable)
 - `MCP_SERVER_SCRIPT` (default: `my_server.py`)
+- `OLLAMA_BASE_URL` (default: `http://localhost:11434/v1`)
+- `OLLAMA_MODEL` (default: `qwen3:4b`)
 
 PowerShell example:
 
 ```powershell
 $env:MCP_SERVER_NAME="calc-demo"
 $env:MCP_TIMEZONE="Asia/Dubai"
+$env:OLLAMA_MODEL="qwen3:4b"
 python agent.py
 ```
 
