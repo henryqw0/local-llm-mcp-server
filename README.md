@@ -2,11 +2,30 @@
 
 MCP server that connects tools to a locally running large language model.
 
+## Quick Start
+
+```powershell
+cd "C:\Users\Home\Desktop\MCP PROJECT"
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python healthcheck.py
+python client.py
+```
+
+## Project Files
+
+- `my_server.py`: MCP server with demo tools
+- `client.py`: terminal chat client that uses Qwen and MCP tools
+- `healthcheck.py`: minimal server smoke test
+- `test_llm`: plain Ollama/OpenAI compatibility check
+- `requirements.txt`: Python dependencies used by this repo
+
 ## MCP Server Learning Guide
 
 This project shows a minimal MCP setup:
 - Server: `my_server.py`
-- Client: `agent.py`
+- Client: `client.py`
 - Transport: `stdio` (client starts server as a child process)
 
 ## 1) Tool Definitions
@@ -26,11 +45,11 @@ Schemas are generated from type hints and `pydantic.Field(...)`.
 Example in this project:
 - `echo_text` uses `min_length=1`, `max_length=2000`
 
-If invalid input is sent, the server returns a structured tool error (`isError: true`), which `agent.py` demonstrates.
+If invalid input is sent, the server returns a structured tool error (`isError: true`), which `client.py` demonstrates.
 
 ## 3) Client/Server Handshake
 
-`agent.py` uses the required MCP flow:
+`client.py` uses the required MCP flow:
 1. Start transport (`stdio_client`)
 2. Create session (`ClientSession`)
 3. Initialize (`await session.initialize()`)
@@ -70,13 +89,7 @@ Recommended production pattern:
 cd "C:\Users\Home\Desktop\MCP PROJECT"
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install mcp pydantic
-```
-
-If you also want LLM experiments in this repo:
-
-```powershell
-pip install openai
+pip install -r requirements.txt
 ```
 
 Optional freeze:
@@ -92,10 +105,16 @@ Run the demo client:
 ```powershell
 cd "C:\Users\Home\Desktop\MCP PROJECT"
 .\.venv\Scripts\Activate.ps1
-python agent.py
+python client.py
 ```
 
 This automatically starts `my_server.py` via `stdio`.
+
+In chat mode:
+- type normal messages to talk to the model
+- type `/reset` to clear chat history
+- type `exit` or `quit` to stop
+- use `python client.py --ask "your prompt"` for a one-shot first message
 
 Run the MCP health check:
 
@@ -121,7 +140,7 @@ PowerShell example:
 $env:MCP_SERVER_NAME="calc-demo"
 $env:MCP_TIMEZONE="Asia/Dubai"
 $env:OLLAMA_MODEL="qwen3:4b"
-python agent.py
+python client.py
 ```
 
 ## 9) Process Manager + Logs (Deployment Basics)
