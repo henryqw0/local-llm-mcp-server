@@ -176,9 +176,4 @@ sudo systemctl status mcp-demo
 journalctl -u mcp-demo -f
 ```
 
-## 10) Next Steps
 
-1. Add domain tools (files, APIs, DB, etc.) with strict schemas.
-2. Add request IDs and structured logging.
-3. Move from `stdio` to network transport for real deployment.
-4. Add tests for tool validation and error responses.
