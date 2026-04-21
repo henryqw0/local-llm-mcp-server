@@ -175,5 +175,6 @@ Useful log commands:
 sudo systemctl status mcp-demo
 journalctl -u mcp-demo -f
 ```
-
+## 10 License
+This project is licensed under the MIT License.
 
